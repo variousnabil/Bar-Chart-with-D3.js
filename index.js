@@ -49,7 +49,16 @@ fetch(url)
             .attr('x', (d, i) => paddingHorizontal + i * 2.82)
             .attr('y', d => h - paddingVertical * 2 - yScale(d[1]))
             .attr('fill', 'green')
-            .attr('class', 'bar');
+            .attr('data-date', d => d[0])
+            .attr('data-gdp', d => d[1])
+            .attr('class', (d, i) => `bar bar${i}`)
+            .append('title')
+            .attr('id', 'tooltip')
+            .text((d, i) => {
+                const date = document.querySelector('.bar' + i).getAttribute('data-date');
+                const gdp = document.querySelector('.bar' + i).getAttribute('data-gdp');
+                return `Date: ${moment(date).format("DD MMM YYYY")}\nGDP: $${gdp} Billion`;
+            });
 
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yAxisScale);

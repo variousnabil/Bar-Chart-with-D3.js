@@ -38,4 +38,8 @@ body .container {
       -ms-flex-pack: center;
           justify-content: center;
 }
+
+.bar:hover {
+  fill: grey;
+}
 /*# sourceMappingURL=style.css.map */
