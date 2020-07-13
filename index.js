@@ -69,16 +69,18 @@ fetch(url)
 
         dataset.forEach((item, i) => {
             document.querySelector('#bar' + i).addEventListener('mouseover', (e) => {
-                // console.log(e);
                 const dateRaw = document.querySelector('#bar' + i).getAttribute('data-date');
                 const gdpRaw = document.querySelector('#bar' + i).getAttribute('data-gdp');
                 const date = moment(dateRaw).format("DD MMM YYYY");
                 const gdp = `$${gdpRaw} Billion`;
                 console.log(`Date: ${date}\nGDP: ${gdp}`);
+                console.log(e);
                 const tooltip = document.querySelector('#tooltip');
                 tooltip.style.opacity = 1;
                 tooltip.setAttribute('data-date', dateRaw);
                 tooltip.innerHTML = `Date: ${date}<br>GDP: ${gdp}`;
+                tooltip.style.left = (e.pageX + 20) + 'px';
+                tooltip.style.top = (e.pageY - 30) + 'px';
             });
             document.querySelector('#bar' + i).addEventListener('mouseleave', e => {
                 const tooltip = document.querySelector('#tooltip');
