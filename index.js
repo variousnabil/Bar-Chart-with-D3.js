@@ -51,14 +51,8 @@ fetch(url)
             .attr('fill', 'green')
             .attr('data-date', d => d[0])
             .attr('data-gdp', d => d[1])
-            .attr('class', (d, i) => `bar bar${i}`)
-            .append('title')
-            .attr('id', 'tooltip')
-            .text((d, i) => {
-                const date = document.querySelector('.bar' + i).getAttribute('data-date');
-                const gdp = document.querySelector('.bar' + i).getAttribute('data-gdp');
-                return `Date: ${moment(date).format("DD MMM YYYY")}\nGDP: $${gdp} Billion`;
-            });
+            .attr('class', `bar`)
+            .attr('id', (d, i) => `bar${i}`);
 
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yAxisScale);
@@ -72,5 +66,27 @@ fetch(url)
             .attr('id', 'y-axis')
             .attr('transform', `translate(${paddingHorizontal}, ${paddingVertical * 2})`)
             .call(yAxis);
+
+        dataset.forEach((item, i) => {
+            document.querySelector('#bar' + i).addEventListener('mouseover', (e) => {
+                // console.log(e);
+                const dateRaw = document.querySelector('#bar' + i).getAttribute('data-date');
+                const gdpRaw = document.querySelector('#bar' + i).getAttribute('data-gdp');
+                const date = moment(dateRaw).format("DD MMM YYYY");
+                const gdp = `$${gdpRaw} Billion`;
+                console.log(`Date: ${date}\nGDP: ${gdp}`);
+                const tooltip = document.querySelector('#tooltip');
+                tooltip.style.opacity = 1;
+                tooltip.setAttribute('data-date', dateRaw);
+                tooltip.innerHTML = `Date: ${date}<br>GDP: ${gdp}`;
+            });
+            document.querySelector('#bar' + i).addEventListener('mouseleave', e => {
+                const tooltip = document.querySelector('#tooltip');
+                tooltip.style.opacity = 0;
+            });
+        });
     })
     .catch(err => console.log(err));
+
+
+
