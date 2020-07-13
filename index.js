@@ -70,9 +70,10 @@ fetch(url)
         dataset.forEach((item, i) => {
             document.querySelector('#bar' + i).addEventListener('mouseover', (e) => {
                 const dateRaw = document.querySelector('#bar' + i).getAttribute('data-date');
-                const gdpRaw = document.querySelector('#bar' + i).getAttribute('data-gdp');
+                let gdpRaw = document.querySelector('#bar' + i).getAttribute('data-gdp');
+                gdpRaw = parseFloat(gdpRaw).toLocaleString('en');
                 const date = moment(dateRaw).format("DD MMM YYYY");
-                const gdp = `$${gdpRaw} Billion`;
+                const gdp = `USD ${gdpRaw} Billion`;
                 console.log(`Date: ${date}\nGDP: ${gdp}`);
                 console.log(e);
                 const tooltip = document.querySelector('#tooltip');
