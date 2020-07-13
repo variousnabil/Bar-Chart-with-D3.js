@@ -28,8 +28,8 @@ fetch(url)
     .then(data => {
         dataset = data.data;
 
-        const xScale = d3.scaleLinear();
-        xScale.domain([d3.min(dataset, d => d[0]), d3.max(dataset, d => d[0])]);
+        const xScale = d3.scaleTime();
+        xScale.domain(d3.extent(dataset, d => new Date(d[0])));
         xScale.range([paddingHorizontal, w - paddingHorizontal]);
 
         const yScale = d3.scaleLinear();
@@ -48,9 +48,10 @@ fetch(url)
             .attr('height', d => yScale(d[1]))
             .attr('x', (d, i) => paddingHorizontal + i * 2.82)
             .attr('y', d => h - paddingVertical * 2 - yScale(d[1]))
-            .attr('fill', 'green');
+            .attr('fill', 'green')
+            .attr('class', 'bar');
 
-        const xAxis = d3.axisBottom(xScale).tickValues(arrYears);
+        const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yAxisScale);
 
         svg.append('g')
